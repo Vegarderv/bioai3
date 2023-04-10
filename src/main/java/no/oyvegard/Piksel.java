@@ -1,7 +1,5 @@
 package no.oyvegard;
 
-import java.util.List;
-
 public class Piksel {
     
     private Direction direction;
