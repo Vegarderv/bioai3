@@ -5,10 +5,17 @@ import java.util.List;
 public class Piksel {
     
     private Direction direction;
-    private List<Integer> colors;
 
-    public Piksel(List<Integer> colors){
-        this.colors = colors;
+    public void setDirection(Direction dir) {
+        this.direction = dir;
+    }
+
+    public Direction getDirection() {
+        return this.direction;
+    }
+
+    public boolean isVisited() {
+        return this.direction != null;
     }
 
 }
