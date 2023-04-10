@@ -14,9 +14,10 @@ public class TestNSGA {
     public TestNSGA() {
         try {
             image = ImageIO.read(new File("src/main/resources/amogus.png"));
-            new Prim(image).generateIndividual();
         } catch (Exception e) {
             // TODO: handle exception
         }
+        Prim prim = new Prim(image);
+        prim.generateIndividual();
     }
 }

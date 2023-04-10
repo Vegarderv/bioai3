@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class Prim {
 
@@ -40,7 +41,7 @@ public class Prim {
 
                 if (x > 0) {
                     int neighbor = image.getRGB(x - 1, y);
-                    distanceMatrix.get(y * width + x).set(y * width + (x + 1), findDistance(pixel, neighbor));
+                    distanceMatrix.get(y * width + x).set(y * width + (x - 1), findDistance(pixel, neighbor));
                 }
 
                 if (x < width - 1) {
@@ -58,6 +59,7 @@ public class Prim {
             }
         }
 
+        System.out.println("Nice");
         this.distanceMatrix = distanceMatrix;
 
     }
@@ -81,7 +83,7 @@ public class Prim {
                     .get();
             individual.changeDirection(currentPixel, newEdge.direction);
             currentPixel = newEdge.getTo();
-            distances = distances.stream().filter(edge -> !edge.getTo().equals(newEdge.getTo())).toList();
+            distances = distances.stream().filter(edge -> !edge.getTo().equals(newEdge.getTo())).collect(Collectors.toList());
             distances.addAll(findNeighbours(currentPixel, visitedPixels));
         }
 
