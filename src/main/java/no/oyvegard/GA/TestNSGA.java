@@ -13,7 +13,7 @@ public class TestNSGA {
 
     public TestNSGA() {
         try {
-            image = ImageIO.read(new File("src/main/resources/amogus.jpg"));
+            image = ImageIO.read(new File("src/main/resources/amogus.png"));
             new Prim(image).generateIndividual();
         } catch (Exception e) {
             // TODO: handle exception

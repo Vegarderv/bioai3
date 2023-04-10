@@ -81,6 +81,7 @@ public class Prim {
             individual.changeDirection(currentPixel, newEdge.direction);
             currentPixel = newEdge.getTo();
             distances = distances.stream().filter(edge -> !edge.getTo().equals(newEdge.getTo())).toList();
+            distances.addAll(findNeighbours(currentPixel, visitedPixels));
         }
 
         return individual;
