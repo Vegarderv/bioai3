@@ -25,4 +25,6 @@ public interface GAIndividual {
 
     public List<GAIndividual> crossover(GAIndividual other);
 
+    public void calculateClusters();
+
 }

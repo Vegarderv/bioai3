@@ -35,8 +35,11 @@ public class NSGA extends GA {
 
     private void calculateFitnessValues() {
         population.forEach(
-                individual -> individual.setFitnessValues(
-                        fitnessFunctions.stream().map(f -> f.apply(individual)).collect(Collectors.toList())));
+                individual -> {
+                    individual.calculateClusters();
+                    individual.setFitnessValues(
+                            fitnessFunctions.stream().map(f -> f.apply(individual)).collect(Collectors.toList()));
+                });
     }
 
     @Override

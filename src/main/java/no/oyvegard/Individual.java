@@ -1,6 +1,8 @@
 package no.oyvegard;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import no.oyvegard.GA.*;;
 
@@ -9,6 +11,8 @@ public class Individual implements GAIndividual {
     private List<List<Piksel>> pixels;
     private int width;
     private int height;
+
+    private List<List<Piksel>> clusters;
 
     private int rank;
     private float crowdingDistance;
@@ -26,7 +30,7 @@ public class Individual implements GAIndividual {
         for (int i = 0; i < height; i++) {
             List<Piksel> row = new ArrayList<>();
             for (int j = 0; j < width; j++) {
-                row.add(new Piksel());
+                row.add(new Piksel(i, j));
             }
             board.add(row);
         }
@@ -39,6 +43,71 @@ public class Individual implements GAIndividual {
 
     public void changeDirection(List<Integer> pixel, Direction direction) {
         pixels.get(pixel.get(1)).get(pixel.get(0)).setDirection(direction);
+    }
+
+    public void calculateClusters() {
+        pixels.stream().flatMap(Collection::stream).forEach(pixel -> pixel.setClusterIndex(-1));
+        List<List<Piksel>> clusters = new ArrayList<>();
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                Piksel pixel = pixels.get(i).get(j);
+                if (pixel.getClusterIndex() != -1) {
+                    continue;
+                }
+
+                List<Piksel> cluster = new ArrayList<>();
+                int clusterIndex = clusters.size();
+
+                pixel.setClusterIndex(clusterIndex);
+
+                Direction direction = pixel.getDirection();
+
+                boolean foundOldCluster = false;
+
+                while (direction != null) {
+                    cluster.add(pixel);
+                    switch (direction) {
+                        case SELF:
+                            break;
+                        case LEFT:
+                            pixel = pixels.get(pixel.getX()).get(pixel.getY() - 1);
+                            break;
+                        case RIGHT:
+                            pixel = pixels.get(pixel.getX()).get(pixel.getY() + 1);
+                            break;
+                        case DOWN:
+                            pixel = pixels.get(pixel.getX() + 1).get(pixel.getY());
+                            break;
+                        case UP:
+                            pixel = pixels.get(pixel.getX() - 1).get(pixel.getY());
+                            break;
+                        default:
+                            break;
+                    }
+
+                    if (pixel.getClusterIndex() != -1) {
+                        int oldClusterIndex = pixel.getClusterIndex();
+                        for (Piksel p : cluster) {
+                            p.setClusterIndex(oldClusterIndex);
+                        }
+
+                        clusters.get(oldClusterIndex).addAll(cluster);
+                        break;
+                    }
+
+                    pixel.setClusterIndex(clusterIndex);
+                    direction = pixel.getDirection();
+                }
+
+                if (!foundOldCluster) {
+
+                    clusters.add(cluster);
+                }
+
+            }
+        }
+
+        this.clusters = clusters;
     }
 
     @Override
