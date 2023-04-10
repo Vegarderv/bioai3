@@ -31,6 +31,7 @@ public class Prim {
             for (int x = 0; x < height * width; x++) {
                 row.add(0.0);
             }
+            distanceMatrix.add(row);
         }
 
         for (int y = 0; y < height; y++) {
