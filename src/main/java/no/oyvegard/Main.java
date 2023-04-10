@@ -1,9 +1,33 @@
 package no.oyvegard;
 
-import no.oyvegard.GA.TestNSGA;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Function;
+
+import javax.imageio.ImageIO;
+
+import no.oyvegard.GA.NSGA;
+import no.oyvegard.GA.*;
 
 public class Main {
+
 	public static void main(String[] args) {
-		new TestNSGA();
+		List<Function<GAIndividual, Float>> fitnessFunctions = new ArrayList<>();
+		fitnessFunctions.add((GAIndividual individual) -> 0f);
+
+		NSGA ga = new NSGA(0.2f, 0.8f, 100, fitnessFunctions);
+		try {
+			BufferedImage image = ImageIO.read(new File("src/main/resources/amogus.png"));
+			ga.run(image, 10);
+
+			System.out.println("Done");
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("ERROR");
+			e.printStackTrace();
+		}
 	}
 }

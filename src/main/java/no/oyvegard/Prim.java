@@ -59,7 +59,6 @@ public class Prim {
             }
         }
 
-        System.out.println("Nice");
         this.distanceMatrix = distanceMatrix;
 
     }
@@ -83,7 +82,8 @@ public class Prim {
                     .get();
             individual.changeDirection(currentPixel, newEdge.direction);
             currentPixel = newEdge.getTo();
-            distances = distances.stream().filter(edge -> !edge.getTo().equals(newEdge.getTo())).collect(Collectors.toList());
+            distances = distances.stream().filter(edge -> !edge.getTo().equals(newEdge.getTo()))
+                    .collect(Collectors.toList());
             distances.addAll(findNeighbours(currentPixel, visitedPixels));
         }
 
