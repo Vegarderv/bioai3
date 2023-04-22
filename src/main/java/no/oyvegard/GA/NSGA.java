@@ -206,7 +206,7 @@ public class NSGA extends GA {
 
     private void mutate(GAIndividual individual) {
         if ((new Random()).nextFloat() < mutationRate) {
-            individual.mutate();
+            individual.mutate(mutationRate);
         }
     }
 

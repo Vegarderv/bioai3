@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
+
 import no.oyvegard.GA.*;;
 
 public class Individual implements GAIndividual {
@@ -133,8 +135,8 @@ public class Individual implements GAIndividual {
     }
 
     @Override
-    public void mutate() {
-        // TODO Auto-generated method stub
+    public void mutate(double mutationRate) {
+        pixels.stream().flatMap(Collection::stream).filter(pix -> new Random().nextDouble() < mutationRate).forEach(pix -> pix.mutate(this.width, this.height));
     }
 
     @Override

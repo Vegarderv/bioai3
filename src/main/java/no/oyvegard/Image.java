@@ -35,7 +35,7 @@ public class Image {
         for (List<Piksel> cluster : individual.getClusters()) {
             List<Piksel> pixelsInCluster = individual.getPixels().stream().flatMap(Collection::stream).filter(pix -> pix.getClusterIndex() == cluster.get(0).getClusterIndex()).toList();
             for (Piksel piksel : cluster) {
-                List<List<Integer>> neighbours = piksel.getNeighbourIndices(this.imgWidth, this.imgHeight);
+                List<List<Integer>> neighbours = piksel.getNeighbourIndices(this.width, this.height);
                 List<Piksel> adjPixelsInCluster = pixelsInCluster.stream().filter(pix -> neighbours.contains(Arrays.asList(pix.getX(), pix.getY()))).toList();
                 if (adjPixelsInCluster.size() < 4) {
                     piksel.setIsBorder(true);
@@ -44,7 +44,7 @@ public class Image {
         }
     }
 
-    private void drawSegmentedImage(int segmentationType) {
+    public void drawSegmentedImage(int segmentationType) {
         BufferedImage image;
         Color color;
         if (segmentationType == 1) {
@@ -65,7 +65,7 @@ public class Image {
 
             color = Color.BLACK;
         }
-        this.individual.getPixels().stream().flatMap(Collection::stream).forEach(pix -> image.setRGB(pix.getX(), pix.getY(), color.getRGB()));
+        this.individual.getPixels().stream().flatMap(Collection::stream).filter(pix -> pix.getIsBorder()).forEach(pix -> image.setRGB(pix.getX(), pix.getY(), color.getRGB()));
 
         try {
             ImageIO.write(image, "PNG", new File("test_image.png"));

@@ -13,7 +13,7 @@ public interface GAIndividual {
 
     public Double getCrowdingDistance();
 
-    public void mutate();
+    public void mutate(double mutationRate);
 
     public List<GAIndividual> getDomintedSolutions();
 

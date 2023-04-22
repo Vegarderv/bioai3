@@ -3,6 +3,7 @@ package no.oyvegard;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class Piksel {
 
@@ -23,6 +24,24 @@ public class Piksel {
     }
 
     private int clusterIndex = -1;
+
+    public void mutate(int imageWidht, int imageHeight) {
+        List<Direction> directions = new ArrayList<>();
+        if (x != 0) {
+            directions.add(Direction.LEFT);
+        }
+        if (x != imageWidht - 1) {
+            directions.add(Direction.RIGHT);
+        }
+        if (y != 0) {
+            directions.add(Direction.UP);
+        }
+        if (y != imageHeight - 1) {
+            directions.add(Direction.DOWN);
+        }
+        Random rand = new Random();
+        this.direction = directions.get(rand.nextInt(directions.size()));
+    }
 
     public List<List<Integer>> getNeighbourIndices(int imageWidht, int imageHeight) {
         List<List<Integer>> neighbours = new ArrayList<>();
@@ -109,6 +128,6 @@ public class Piksel {
         return this.direction != null;
     }
 
-    
+
 
 }
