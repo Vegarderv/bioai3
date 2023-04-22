@@ -9,7 +9,9 @@ public class Piksel {
     private Direction direction;
     private int x;
     private int y;
+    private boolean isBorder;
 
+    
     public Piksel(int x, int y) {
         this.x = x;
         this.y = y;
@@ -41,13 +43,21 @@ public class Piksel {
     public void setX(int x) {
         this.x = x;
     }
-
+    
     public int getY() {
         return y;
     }
-
+    
     public void setY(int y) {
         this.y = y;
+    }
+    
+    public boolean getIsBorder() {
+        return isBorder;
+    }
+
+    public void setIsBorder(boolean isBorder) {
+        this.isBorder = isBorder;
     }
 
     public int getClusterIndex() {
