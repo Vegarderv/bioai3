@@ -48,4 +48,6 @@ public abstract class GA {
 
     protected abstract void generateNewPopulation();
 
+    public abstract GAIndividual getBestIndividual();
+
 }

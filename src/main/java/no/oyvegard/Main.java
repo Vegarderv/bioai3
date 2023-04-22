@@ -22,9 +22,14 @@ public class Main {
 		try {
 			BufferedImage image = ImageIO.read(new File("src/main/resources/amogus.png"));
 
-			ga.run(image, 10);
+			ga.run(image, 20);
 
 			System.out.println("Done");
+
+			Individual best = (Individual) ga.getBestIndividual();
+
+			Image segmented = new Image(image, best);
+			segmented.drawSegmentedImage(1);
 
 		} catch (Exception e) {
 			// TODO: handle exception

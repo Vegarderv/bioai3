@@ -6,6 +6,8 @@ import java.util.Random;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import javax.swing.event.SwingPropertyChangeSupport;
+
 public class NSGA extends GA {
 
     private float mutationRate;
@@ -44,6 +46,7 @@ public class NSGA extends GA {
 
     @Override
     protected void generateNewPopulation() {
+        offspring.clear();
         // Create the new offspring
         for (int i = 0; i < populationSize; i++) {
             GAIndividual parent1 = tournamentParentSelection();
@@ -95,14 +98,17 @@ public class NSGA extends GA {
                     dominated.setRank(dominated.getRank() - 1);
                     if (dominated.getRank() == 0) {
                         dominated.setRank(i + 1);
-                        nextFront.add(dominated);
+
+                        if (!nextFront.contains(dominated)) {
+                            nextFront.add(dominated);
+                        }
                     }
                 }
             }
 
             i += 1;
             if (nextFront.size() > 0) {
-                frontList.add(nextFront);
+                frontList.add(new ArrayList<>(nextFront));
             }
             currentFront = new ArrayList<>(nextFront);
 
@@ -115,7 +121,7 @@ public class NSGA extends GA {
         List<Double> f1 = individual.getFitnessValues();
         List<Double> f2 = other.getFitnessValues();
         for (int i = 0; i < f1.size(); i++) {
-            res = res && (f1.get(i) <= f2.get(i));
+            res = res && (f1.get(i) > f2.get(i));
         }
 
         return res;
@@ -222,6 +228,12 @@ public class NSGA extends GA {
         }
 
         return offspring;
+    }
+
+    @Override
+    public GAIndividual getBestIndividual() {
+        evaluatePopulation();
+        return frontList.get(0).get(0);
     }
 
 }

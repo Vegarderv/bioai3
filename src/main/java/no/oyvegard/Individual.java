@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
+import java.util.PrimitiveIterator.OfDouble;
+
 import no.oyvegard.GA.*;
 
 public class Individual implements GAIndividual {
@@ -111,8 +113,16 @@ public class Individual implements GAIndividual {
 
                     if (pixel.getClusterIndex() != -1) {
                         int oldClusterIndex = pixel.getClusterIndex();
+                        if (oldClusterIndex == clusterIndex) {
+                            break;
+                        }
+
                         for (Piksel p : cluster.getPixels()) {
                             p.setClusterIndex(oldClusterIndex);
+                        }
+
+                        if (clusters.size() == 0) {
+                            System.out.println("Det var leit");
                         }
 
                         clusters.get(oldClusterIndex).addAllPixels(cluster);
@@ -164,7 +174,8 @@ public class Individual implements GAIndividual {
 
     @Override
     public void mutate(double mutationRate) {
-        pixels.stream().flatMap(Collection::stream).filter(pix -> new Random().nextDouble() < mutationRate).forEach(pix -> pix.mutate(this.width, this.height));
+        pixels.stream().flatMap(Collection::stream).filter(pix -> new Random().nextDouble() < mutationRate)
+                .forEach(pix -> pix.mutate(this.width, this.height));
     }
 
     @Override
