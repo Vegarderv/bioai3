@@ -13,7 +13,7 @@ public class SGA extends GA {
     private float mutationRate;
     private float crossoverRate;
     private List<GAIndividual> offspring;
-    private List<Double> ranking;
+    private List<Double> ranking = new ArrayList<>();
 
     private HashMap<Function<GAIndividual, Double>, Double> evaluationFuctions;
 
