@@ -7,11 +7,16 @@ import java.util.List;
 public class Piksel {
 
     private Direction direction;
+    private int red;
+
+    private int green;
+
+    private int blue;
+
     private int x;
     private int y;
     private boolean isBorder = false;
 
-    
     public Piksel(int x, int y) {
         this.x = x;
         this.y = y;
@@ -36,22 +41,46 @@ public class Piksel {
         return neighbours;
     }
 
+    public int getRed() {
+        return red;
+    }
+
+    public void setRed(int red) {
+        this.red = red;
+    }
+
     public int getX() {
         return x;
+    }
+
+    public int getGreen() {
+        return green;
+    }
+
+    public void setGreen(int green) {
+        this.green = green;
     }
 
     public void setX(int x) {
         this.x = x;
     }
-    
+
+    public int getBlue() {
+        return blue;
+    }
+
+    public void setBlue(int blue) {
+        this.blue = blue;
+    }
+
     public int getY() {
         return y;
     }
-    
+
     public void setY(int y) {
         this.y = y;
     }
-    
+
     public boolean getIsBorder() {
         return isBorder;
     }

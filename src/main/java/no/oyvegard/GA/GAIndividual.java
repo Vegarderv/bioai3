@@ -2,14 +2,16 @@ package no.oyvegard.GA;
 
 import java.util.List;
 
+import no.oyvegard.Piksel;
+
 public interface GAIndividual {
     public void setRank(int rank);
 
     public int getRank();
 
-    public void setCrowdingDistance(float distance);
+    public void setCrowdingDistance(double distance);
 
-    public Float getCrowdingDistance();
+    public Double getCrowdingDistance();
 
     public void mutate();
 
@@ -19,12 +21,16 @@ public interface GAIndividual {
 
     public void clearDominatedSolutions();
 
-    public void setFitnessValues(List<Float> fitnessValues);
+    public void setFitnessValues(List<Double> fitnessValues);
 
-    public List<Float> getFitnessValues();
+    public List<Double> getFitnessValues();
 
     public List<GAIndividual> crossover(GAIndividual other);
 
     public void calculateClusters();
+
+    public List<List<Piksel>> getPixels();
+
+    public List<Integer> getSize();
 
 }
