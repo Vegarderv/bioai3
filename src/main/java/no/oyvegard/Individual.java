@@ -169,4 +169,14 @@ public class Individual implements GAIndividual {
         return res;
     }
 
+    public List<List<Piksel>> getClusters() {
+        return clusters;
+    }
+
+    public void setClusters(List<List<Piksel>> clusters) {
+        this.clusters = clusters;
+    }
+
+    
+
 }
