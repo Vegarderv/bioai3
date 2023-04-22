@@ -32,7 +32,7 @@ public class Image {
 
 
     private void generateBorders() {
-        for (List<Piksel> cluster : individual.getClusters()) {
+        for (List<Piksel> cluster : individual.getPixels()) {
             List<Piksel> pixelsInCluster = individual.getPixels().stream().flatMap(Collection::stream).filter(pix -> pix.getClusterIndex() == cluster.get(0).getClusterIndex()).toList();
             for (Piksel piksel : cluster) {
                 List<List<Integer>> neighbours = piksel.getNeighbourIndices(this.width, this.height);
