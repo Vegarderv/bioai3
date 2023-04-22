@@ -16,6 +16,7 @@ public class Main {
 	public static void main(String[] args) {
 		List<Function<GAIndividual, Double>> fitnessFunctions = new ArrayList<>();
 		fitnessFunctions.add((individual) -> Evaluator.EdgeValue(individual));
+		fitnessFunctions.add((individual) -> Evaluator.ConnectivityMeasure(individual));
 
 		NSGA ga = new NSGA(0.2f, 0.8f, 100, fitnessFunctions);
 		try {

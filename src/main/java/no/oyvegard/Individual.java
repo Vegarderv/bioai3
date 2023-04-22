@@ -3,7 +3,6 @@ package no.oyvegard;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import no.oyvegard.GA.*;;
 
@@ -46,8 +45,12 @@ public class Individual implements GAIndividual {
         pixels.get(pixel.get(1)).get(pixel.get(0)).setDirection(direction);
     }
 
+    public void changePixelColor(int x, int y, int r, int g, int b) {
+        Piksel pixel = pixels.get(y).get(x);
+        pixel.setRGB(r, g, b);
+    }
+
     public void calculateClusters() {
-        printDirections();
         pixels.stream().flatMap(Collection::stream).forEach(pixel -> pixel.setClusterIndex(-1));
         List<List<Piksel>> clusters = new ArrayList<>();
         for (int i = 0; i < height; i++) {
