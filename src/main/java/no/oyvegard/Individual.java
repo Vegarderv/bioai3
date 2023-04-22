@@ -26,6 +26,12 @@ public class Individual implements GAIndividual {
         generateBoard();
     }
 
+    public Individual(Individual ind, List<List<Piksel>> pixels) {
+        this.height = ind.getHeight();
+        this.width = ind.getWidth();
+        this.pixels = pixels;
+    }
+
     private void generateBoard() {
         List<List<Piksel>> board = new ArrayList<>();
         for (int i = 0; i < height; i++) {
@@ -40,6 +46,18 @@ public class Individual implements GAIndividual {
 
     public List<List<Piksel>> getPixels() {
         return pixels;
+    }
+
+    private List<List<Piksel>> unFlatMapper(List<Piksel> pixles) {
+        List<List<Piksel>> outList = new ArrayList<>();
+        for (int i = 0; i < height; i++) {
+            List<Piksel> row = new ArrayList<>();
+            for (int j = 0; j < width; j++) {
+                row.add(pixles.get(i * width + j));
+            }
+            outList.add(row);
+        }
+        return outList;
     }
 
     public void changeDirection(List<Integer> pixel, Direction direction) {
@@ -136,6 +154,14 @@ public class Individual implements GAIndividual {
         return crowdingDistance;
     }
 
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
     @Override
     public void mutate(double mutationRate) {
         pixels.stream().flatMap(Collection::stream).filter(pix -> new Random().nextDouble() < mutationRate).forEach(pix -> pix.mutate(this.width, this.height));
@@ -168,9 +194,19 @@ public class Individual implements GAIndividual {
 
     @Override
     public List<GAIndividual> crossover(GAIndividual other) {
+        int splitPoint = new Random().nextInt(width * height - 2) + 1;
         List<GAIndividual> res = new ArrayList<>();
-        res.add(this);
-        res.add(other);
+        List<Piksel> pixels1 = this.getPixels().stream().flatMap(Collection::stream).toList();
+        List<Piksel> pixels2 = other.getPixels().stream().flatMap(Collection::stream).toList();
+
+        List<Piksel> newPixels1 = pixels1.subList(0, splitPoint);
+        pixels1.addAll(pixels2.subList(splitPoint, width * height - 1));
+        
+        List<Piksel> newPixels2 = pixels2.subList(0, splitPoint);
+        pixels2.addAll(pixels1.subList(splitPoint, width * height - 1));
+
+        res.add(new Individual(this, unFlatMapper(newPixels1)));
+        res.add(new Individual(this, unFlatMapper(newPixels2)));
 
         return res;
     }
