@@ -9,7 +9,7 @@ public class Piksel {
     private Direction direction;
     private int x;
     private int y;
-    private boolean isBorder;
+    private boolean isBorder = false;
 
     
     public Piksel(int x, int y) {
@@ -79,5 +79,7 @@ public class Piksel {
     public boolean isVisited() {
         return this.direction != null;
     }
+
+    
 
 }
