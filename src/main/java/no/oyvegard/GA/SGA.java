@@ -29,8 +29,8 @@ public class SGA extends GA {
 
     private void createRanking() {
         for (int i = 0; i < population.size(); i++) {
-            ranking.add((2 - SFACTOR) / population.size() + 2 * i * (SFACTOR - 1)
-                    / (population.size() * (population.size() - 1)));
+            ranking.add((2 - SFACTOR) / populationSize + 2 * i * (SFACTOR - 1)
+                    / (populationSize * (populationSize - 1)));
         }
     }
 
