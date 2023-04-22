@@ -194,7 +194,7 @@ public class Individual implements GAIndividual {
 
     @Override
     public List<GAIndividual> crossover(GAIndividual other) {
-        int splitPoint = new Random().nextInt(width * height - 2) + 1;
+        int splitPoint = new Random().nextInt(width * height - 3) + 1;
         List<GAIndividual> res = new ArrayList<>();
         List<Piksel> pixels1 = this.getPixels().stream().flatMap(Collection::stream).toList();
         List<Piksel> pixels2 = other.getPixels().stream().flatMap(Collection::stream).toList();
