@@ -100,6 +100,12 @@ public class Piksel {
         this.y = y;
     }
 
+    public void setRGB(int r, int g, int b) {
+        this.red = r;
+        this.green = g;
+        this.blue = b;
+    }
+
     public boolean getIsBorder() {
         return isBorder;
     }
@@ -127,7 +133,5 @@ public class Piksel {
     public boolean isVisited() {
         return this.direction != null;
     }
-
-
 
 }

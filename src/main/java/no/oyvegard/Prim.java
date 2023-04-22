@@ -82,6 +82,8 @@ public class Prim {
                     .get();
             currentPixel = newEdge.getTo();
             individual.changeDirection(currentPixel, newEdge.direction);
+            List<Integer> rgb = getRGB(currentPixel.get(0), currentPixel.get(1));
+            individual.changePixelColor(currentPixel.get(0), currentPixel.get(1), rgb.get(0), rgb.get(1), rgb.get(2));
             distances = distances.stream().filter(edge -> !edge.getTo().equals(newEdge.getTo()))
                     .collect(Collectors.toList());
             distances.addAll(findNeighbours(currentPixel, visitedPixels));
@@ -91,11 +93,20 @@ public class Prim {
 
     }
 
-    private double findDistance(int pixel1, int pixel2) {
-
+    private List<Integer> getRGB(int pixel1, int pixel2) {
         int red = (pixel1 >> 16) & 0xff;
         int green = (pixel1 >> 8) & 0xff;
         int blue = pixel1 & 0xff;
+
+        return Arrays.asList(red, green, blue);
+
+    }
+
+    private double findDistance(int pixel1, int pixel2) {
+        List<Integer> rgb = getRGB(pixel1, pixel2);
+        int red = rgb.get(0);
+        int green = rgb.get(1);
+        int blue = rgb.get(2);
 
         int pixel2Red = (pixel2 >> 16) & 0xff;
         int pixel2Green = (pixel2 >> 8) & 0xff;
