@@ -29,7 +29,7 @@ class Evaluator {
 
     }
 
-    private int neighbourIndex(Piksel a, Piksel b) {
+    private static int neighbourIndex(Piksel a, Piksel b) {
         int xDiff = Math.abs(a.getX() - b.getX());
         int yDiff = Math.abs(a.getY() - b.getY());
         if (xDiff == 0) {
@@ -71,7 +71,7 @@ class Evaluator {
             return pixel.getNeighbourIndices(width, height).stream().mapToDouble(index -> {
                 Piksel neighbour = individual.getPixels().get(index.get(1)).get(index.get(0));
                 return neighbour.getClusterIndex() == pixel.getClusterIndex() ? 0.0
-                        : 1 / (double) Evaluator.euclideanPixelDistance(pixel, neighbour);
+                        : 1 / (double) neighbourIndex(pixel, neighbour);
             }).sum();
         }).sum();
 
