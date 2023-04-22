@@ -13,16 +13,16 @@ public class Edge {
         this.to = to;
         this.distance = distance;
         if (from.get(0) == to.get(0) - 1) {
-            direction = Direction.RIGHT;
-        }
-        else if (from.get(0) == to.get(0) + 1) {
             direction = Direction.LEFT;
         }
+        else if (from.get(0) == to.get(0) + 1) {
+            direction = Direction.RIGHT;
+        }
         else if (from.get(1) == to.get(1) - 1) {
-            direction = Direction.DOWN;
+            direction = Direction.UP;
         }
         else {
-            direction = Direction.UP;
+            direction = Direction.DOWN;
         }
     }
 

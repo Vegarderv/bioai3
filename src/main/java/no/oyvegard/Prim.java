@@ -78,10 +78,10 @@ public class Prim {
         while (distances.size() > 0) {
             visitedPixels.add(new ArrayList<>(currentPixel));
             Edge newEdge = distances.stream()
-                    .max(Comparator.comparingDouble(Edge::getDistance))
+                    .min(Comparator.comparingDouble(Edge::getDistance))
                     .get();
-            individual.changeDirection(currentPixel, newEdge.direction);
             currentPixel = newEdge.getTo();
+            individual.changeDirection(currentPixel, newEdge.direction);
             distances = distances.stream().filter(edge -> !edge.getTo().equals(newEdge.getTo()))
                     .collect(Collectors.toList());
             distances.addAll(findNeighbours(currentPixel, visitedPixels));
