@@ -10,13 +10,13 @@ public class NSGA extends GA {
 
     private float mutationRate;
     private float crossoverRate;
-    private List<Function<GAIndividual, Float>> fitnessFunctions;
+    private List<Function<GAIndividual, Double>> fitnessFunctions;
 
     private List<GAIndividual> offspring = new ArrayList<>();
     private List<List<GAIndividual>> frontList = new ArrayList<>();
 
     public NSGA(float mutationRate, float crossoverRate, int populationSize,
-            List<Function<GAIndividual, Float>> fitnessFunctions) {
+            List<Function<GAIndividual, Double>> fitnessFunctions) {
         this.mutationRate = mutationRate;
         this.crossoverRate = crossoverRate;
         this.populationSize = populationSize;
@@ -112,8 +112,8 @@ public class NSGA extends GA {
 
     private boolean dominates(GAIndividual individual, GAIndividual other) {
         boolean res = true;
-        List<Float> f1 = individual.getFitnessValues();
-        List<Float> f2 = other.getFitnessValues();
+        List<Double> f1 = individual.getFitnessValues();
+        List<Double> f2 = other.getFitnessValues();
         for (int i = 0; i < f1.size(); i++) {
             res = res && (f1.get(i) <= f2.get(i));
         }
@@ -155,10 +155,10 @@ public class NSGA extends GA {
                     .getAsDouble();
 
             for (int j = 2; j < l - 1; j++) {
-                float m1 = (front.get(j - 1).getFitnessValues().get(i));
-                float m2 = (front.get(j + 1).getFitnessValues().get(i));
+                double m1 = (front.get(j - 1).getFitnessValues().get(i));
+                double m2 = (front.get(j + 1).getFitnessValues().get(i));
 
-                float distance = front.get(j).getCrowdingDistance() + (m2 - m1) / (fmax - fmin);
+                double distance = front.get(j).getCrowdingDistance() + (m2 - m1) / (fmax - fmin);
                 front.get(j).setCrowdingDistance(distance);
 
             }

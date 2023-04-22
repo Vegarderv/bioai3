@@ -30,7 +30,6 @@ public abstract class GA {
         for (int i = 0; i < populationSize; i++) {
             Individual individual = prim.generateIndividual();
             population.add(individual);
-
         }
 
     }

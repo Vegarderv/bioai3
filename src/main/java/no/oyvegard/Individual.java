@@ -1,6 +1,7 @@
 package no.oyvegard;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -15,9 +16,9 @@ public class Individual implements GAIndividual {
     private List<List<Piksel>> clusters;
 
     private int rank;
-    private float crowdingDistance;
+    private double crowdingDistance;
     private List<GAIndividual> dominatedSolutions = new ArrayList<>();
-    private List<Float> fitnessValues = new ArrayList<>();
+    private List<Double> fitnessValues = new ArrayList<>();
 
     public Individual(int width, int height) {
         this.width = width;
@@ -46,6 +47,7 @@ public class Individual implements GAIndividual {
     }
 
     public void calculateClusters() {
+        printDirections();
         pixels.stream().flatMap(Collection::stream).forEach(pixel -> pixel.setClusterIndex(-1));
         List<List<Piksel>> clusters = new ArrayList<>();
         for (int i = 0; i < height; i++) {
@@ -70,16 +72,16 @@ public class Individual implements GAIndividual {
                         case SELF:
                             break;
                         case LEFT:
-                            pixel = pixels.get(pixel.getX()).get(pixel.getY() - 1);
+                            pixel = pixels.get(pixel.getY()).get(pixel.getX() - 1);
                             break;
                         case RIGHT:
-                            pixel = pixels.get(pixel.getX()).get(pixel.getY() + 1);
-                            break;
-                        case DOWN:
-                            pixel = pixels.get(pixel.getX() + 1).get(pixel.getY());
+                            pixel = pixels.get(pixel.getY()).get(pixel.getX() + 1);
                             break;
                         case UP:
-                            pixel = pixels.get(pixel.getX() - 1).get(pixel.getY());
+                            pixel = pixels.get(pixel.getY() - 1).get(pixel.getX());
+                            break;
+                        case DOWN:
+                            pixel = pixels.get(pixel.getY() + 1).get(pixel.getX());
                             break;
                         default:
                             break;
@@ -121,12 +123,12 @@ public class Individual implements GAIndividual {
     }
 
     @Override
-    public void setCrowdingDistance(float distance) {
+    public void setCrowdingDistance(double distance) {
         this.crowdingDistance = distance;
     }
 
     @Override
-    public Float getCrowdingDistance() {
+    public Double getCrowdingDistance() {
         return crowdingDistance;
     }
 
@@ -151,12 +153,12 @@ public class Individual implements GAIndividual {
     }
 
     @Override
-    public void setFitnessValues(List<Float> fitnessValues) {
+    public void setFitnessValues(List<Double> fitnessValues) {
         this.fitnessValues = fitnessValues;
     }
 
     @Override
-    public List<Float> getFitnessValues() {
+    public List<Double> getFitnessValues() {
         return fitnessValues;
     }
 
@@ -169,6 +171,30 @@ public class Individual implements GAIndividual {
         return res;
     }
 
+    @Override
+    public List<Integer> getSize() {
+        int height = pixels.size();
+        int width = pixels.get(0).size();
+
+        return Arrays.asList(width, height);
+    }
+
+    public void printDirections() {
+        // Prints a grid of the directions of the pixels
+        for (List<Piksel> row : pixels) {
+            for (Piksel pixel : row) {
+
+                Direction dir = pixel.getDirection();
+                if (dir == null) {
+                    System.out.print(" ");
+                    continue;
+                }
+                System.out.print(pixel.getDirection().toString().charAt(0));
+            }
+            System.out.println();
+        }
+    }
+
     public List<List<Piksel>> getClusters() {
         return clusters;
     }
@@ -176,7 +202,5 @@ public class Individual implements GAIndividual {
     public void setClusters(List<List<Piksel>> clusters) {
         this.clusters = clusters;
     }
-
-    
 
 }
