@@ -1,5 +1,9 @@
 package no.oyvegard;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Piksel {
 
     private Direction direction;
@@ -12,6 +16,23 @@ public class Piksel {
     }
 
     private int clusterIndex = -1;
+
+    public List<List<Integer>> getNeighbourIndices(int imageWidht, int imageHeight) {
+        List<List<Integer>> neighbours = new ArrayList<>();
+        if (this.x > 0) {
+            neighbours.add(Arrays.asList(this.x - 1, this.y));
+        }
+        if (this.x < imageHeight - 1) {
+            neighbours.add(Arrays.asList(this.x + 1, this.y));
+        }
+        if (this.y > 0) {
+            neighbours.add(Arrays.asList(this.x, this.y - 1));
+        }
+        if (this.y < imageHeight - 1) {
+            neighbours.add(Arrays.asList(this.x, this.y + 1));
+        }
+        return neighbours;
+    }
 
     public int getX() {
         return x;
