@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import no.oyvegard.GA.*;;
+import no.oyvegard.GA.*;
 
 public class Individual implements GAIndividual {
 
@@ -12,7 +12,7 @@ public class Individual implements GAIndividual {
     private int width;
     private int height;
 
-    private List<List<Piksel>> clusters;
+    private List<Cluster> clusters = new ArrayList<>();
 
     private int rank;
     private double crowdingDistance;
@@ -52,7 +52,7 @@ public class Individual implements GAIndividual {
 
     public void calculateClusters() {
         pixels.stream().flatMap(Collection::stream).forEach(pixel -> pixel.setClusterIndex(-1));
-        List<List<Piksel>> clusters = new ArrayList<>();
+        List<Cluster> clusters = new ArrayList<>();
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 Piksel pixel = pixels.get(i).get(j);
@@ -60,7 +60,7 @@ public class Individual implements GAIndividual {
                     continue;
                 }
 
-                List<Piksel> cluster = new ArrayList<>();
+                Cluster cluster = new Cluster();
                 int clusterIndex = clusters.size();
 
                 pixel.setClusterIndex(clusterIndex);
@@ -70,7 +70,7 @@ public class Individual implements GAIndividual {
                 boolean foundOldCluster = false;
 
                 while (direction != null) {
-                    cluster.add(pixel);
+                    cluster.addPixel(pixel);
                     switch (direction) {
                         case SELF:
                             break;
@@ -92,11 +92,11 @@ public class Individual implements GAIndividual {
 
                     if (pixel.getClusterIndex() != -1) {
                         int oldClusterIndex = pixel.getClusterIndex();
-                        for (Piksel p : cluster) {
+                        for (Piksel p : cluster.getPixels()) {
                             p.setClusterIndex(oldClusterIndex);
                         }
 
-                        clusters.get(oldClusterIndex).addAll(cluster);
+                        clusters.get(oldClusterIndex).addAllPixels(cluster);
                         break;
                     }
 
@@ -198,11 +198,11 @@ public class Individual implements GAIndividual {
         }
     }
 
-    public List<List<Piksel>> getClusters() {
+    public List<Cluster> getClusters() {
         return clusters;
     }
 
-    public void setClusters(List<List<Piksel>> clusters) {
+    public void setClusters(List<Cluster> clusters) {
         this.clusters = clusters;
     }
 

@@ -2,7 +2,7 @@ package no.oyvegard.GA;
 
 import java.util.List;
 
-import no.oyvegard.Piksel;
+import no.oyvegard.*;
 
 public interface GAIndividual {
     public void setRank(int rank);
@@ -28,6 +28,8 @@ public interface GAIndividual {
     public List<GAIndividual> crossover(GAIndividual other);
 
     public void calculateClusters();
+
+    public List<Cluster> getClusters();
 
     public List<List<Piksel>> getPixels();
 

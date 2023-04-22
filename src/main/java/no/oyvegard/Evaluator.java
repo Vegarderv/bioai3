@@ -75,6 +75,21 @@ class Evaluator {
             }).sum();
         }).sum();
 
+        // SHould minimize
+        return -value;
+
+    }
+
+    public static double OverallDeviation(GAIndividual individual) {
+        double value = individual.getClusters().stream().mapToDouble(cluster -> {
+            Piksel centroid = cluster.getCentroid();
+
+            return cluster.getPixels().stream().mapToDouble(pixel -> {
+                return Evaluator.euclideanPixelDistance(pixel, centroid);
+            }).sum();
+        }).sum();
+
+        // SHould minimize
         return -value;
 
     }
