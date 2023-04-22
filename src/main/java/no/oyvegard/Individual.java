@@ -31,7 +31,7 @@ public class Individual implements GAIndividual {
         for (int i = 0; i < height; i++) {
             List<Piksel> row = new ArrayList<>();
             for (int j = 0; j < width; j++) {
-                row.add(new Piksel(i, j));
+                row.add(new Piksel(j, i));
             }
             board.add(row);
         }
