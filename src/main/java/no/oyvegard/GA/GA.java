@@ -3,7 +3,10 @@ package no.oyvegard.GA;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
+import me.tongfei.progressbar.ProgressBar;
 import no.oyvegard.Individual;
 import no.oyvegard.Prim;
 
@@ -17,10 +20,10 @@ public abstract class GA {
     public void run(BufferedImage image, int nbrGenerations) {
         this.image = image;
         initPopulation();
-        System.out.println("Population initialized" + population.size());
-        for (int i = 0; i < nbrGenerations; i++) {
+        System.out.println("Populationzed" + population.size());
+        List<Integer> range = IntStream.range(0, nbrGenerations).boxed().collect(Collectors.toList());
+        for (int i : ProgressBar.wrap(new ArrayList<>(range), "Running GA")) {
             runGeneration();
-
         }
     }
 
@@ -49,5 +52,7 @@ public abstract class GA {
     protected abstract void generateNewPopulation();
 
     public abstract GAIndividual getBestIndividual();
+
+    public abstract List<GAIndividual> getBestIndividuals(int nbr);
 
 }
