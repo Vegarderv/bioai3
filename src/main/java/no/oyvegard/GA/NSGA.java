@@ -44,7 +44,7 @@ public class NSGA extends GA {
                 individual -> {
                     individual.calculateClusters();
                     individual.setFitnessValues(
-                            fitnessFunctions.stream().map(f -> f.apply(individual)).collect(Collectors.toList()));
+                            fitnessFunctions.stream().map(f -> -f.apply(individual)).collect(Collectors.toList()));
                 });
     }
 
@@ -122,10 +122,10 @@ public class NSGA extends GA {
         List<Double> f1 = individual.getFitnessValues();
         List<Double> f2 = other.getFitnessValues();
         for (int i = 0; i < f1.size(); i++) {
-            if (f1.get(i) < f2.get(i)) {
+            if (f1.get(i) > f2.get(i)) {
                 return false;
             }
-            if (f1.get(i) > f2.get(i)) {
+            if (f1.get(i) < f2.get(i)) {
                 strictCount += 1;
             }
         }

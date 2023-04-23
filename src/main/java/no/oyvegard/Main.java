@@ -33,6 +33,7 @@ public class Main {
 			Individual best = (Individual) ga.getBestIndividual();
 			ga.getBestIndividuals(5).stream().forEach(i -> {
 				i.getFitnessValues().stream().forEach(f -> System.out.print(f + " "));
+				((Individual) i).printClusters();
 			});
 			System.out.println(best.getClusters().size());
 

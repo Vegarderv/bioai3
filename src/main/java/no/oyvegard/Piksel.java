@@ -52,19 +52,18 @@ public class Piksel {
         this.direction = directions.get(rand.nextInt(directions.size()));
     }
 
-    public List<List<Integer>> getNeighbourIndices(int imageWidht, int imageHeight) {
+    public List<List<Integer>> getNeighbourIndices(int imageWidth, int imageHeight) {
         List<List<Integer>> neighbours = new ArrayList<>();
-        if (this.x > 0) {
-            neighbours.add(Arrays.asList(this.x - 1, this.y));
-        }
-        if (this.x < imageHeight - 1) {
-            neighbours.add(Arrays.asList(this.x + 1, this.y));
-        }
-        if (this.y > 0) {
-            neighbours.add(Arrays.asList(this.x, this.y - 1));
-        }
-        if (this.y < imageHeight - 1) {
-            neighbours.add(Arrays.asList(this.x, this.y + 1));
+        final int[][] directions = new int[][] { { 0, -1 }, { 0, 1 }, { -1, 0 }, { 1, 0 }, { -1, -1 }, { -1, 1 },
+                { 1, -1 },
+                { 1, 1 } };
+
+        for (int[] direction : directions) {
+            int x = this.x + direction[0];
+            int y = this.y + direction[1];
+            if (x >= 0 && x < imageWidth && y >= 0 && y < imageHeight) {
+                neighbours.add(Arrays.asList(x, y));
+            }
         }
         return neighbours;
     }
