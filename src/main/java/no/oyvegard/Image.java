@@ -70,8 +70,11 @@ public class Image {
 
             color = Color.BLACK;
         }
-        this.individual.getPixels().stream().flatMap(Collection::stream).filter(pix -> pix.getIsBorder())
-                .forEach(pix -> image.setRGB(pix.getX(), pix.getY(), color.getRGB()));
+        this.individual.getPixels()
+            .stream()
+            .flatMap(Collection::stream)
+            .filter(pix -> pix.getIsBorder())
+            .forEach(pix -> image.setRGB(pix.getX(), pix.getY(), color.getRGB()));
 
         try {
             ImageIO.write(image, "PNG", new File(outputPath));

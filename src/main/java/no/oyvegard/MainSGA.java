@@ -13,8 +13,8 @@ public class MainSGA {
     public static void main(String[] args) {
 		HashMap<Function<GAIndividual, Double>, Double> fitnessFunctions = new HashMap<>();
 		fitnessFunctions.put((individual) -> Evaluator.EdgeValue(individual), 0.1);
-		fitnessFunctions.put((individual) -> Evaluator.ConnectivityMeasure(individual), 200.0);
-		fitnessFunctions.put((individual) -> Evaluator.OverallDeviation(individual), 0.1);
+		fitnessFunctions.put((individual) -> Evaluator.ConnectivityMeasure(individual), 30.0);
+		fitnessFunctions.put((individual) -> Evaluator.OverallDeviation(individual), 0.15);
 
 		RunConfig config = new RunConfig();
 
