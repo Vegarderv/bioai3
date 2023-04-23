@@ -155,4 +155,13 @@ public class Piksel {
         return this.direction != null;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (!obj.getClass().equals(Piksel.class)){
+            throw new IllegalArgumentException("Must compare piksel with piksel");
+        }
+        Piksel other = (Piksel) obj;
+        return this.x == other.getX() && this.y == other.getY();
+    }
+
 }

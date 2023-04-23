@@ -40,6 +40,7 @@ public class Prim {
                     .min(Comparator.comparingDouble(Edge::getDistance))
                     .get();
             currentPixel = newEdge.getTo();
+            currentPixel.setDirection(newEdge.direction);
             distances = distances
                     .stream()
                     .filter(edge -> !edge.getTo().equals(newEdge.getTo()))
@@ -78,28 +79,28 @@ public class Prim {
 
         if (pixel.getX() > 0) {
             Piksel pixelNeighbour = individual.getPixels().get(pixel.getY()).get(pixel.getX() - 1);
-            if (!pixelNeighbour.isVisited()) {
+            if (!pixelNeighbour.getVisited()) {
                 newNeighbours
                         .add(new Edge(pixel, pixelNeighbour, findDistance(pixel.getRGB(), pixelNeighbour.getRGB())));
             }
         }
         if (pixel.getX() < width - 1) {
             Piksel pixelNeighbour = individual.getPixels().get(pixel.getY()).get(pixel.getX() + 1);
-            if (!pixelNeighbour.isVisited()) {
+            if (!pixelNeighbour.getVisited()) {
                 newNeighbours
                         .add(new Edge(pixel, pixelNeighbour, findDistance(pixel.getRGB(), pixelNeighbour.getRGB())));
             }
         }
         if (pixel.getY() < height - 1) {
             Piksel pixelNeighbour = individual.getPixels().get(pixel.getY() + 1).get(pixel.getX());
-            if (!pixelNeighbour.isVisited()) {
+            if (!pixelNeighbour.getVisited()) {
                 newNeighbours
                         .add(new Edge(pixel, pixelNeighbour, findDistance(pixel.getRGB(), pixelNeighbour.getRGB())));
             }
         }
         if (pixel.getY() > 0) {
             Piksel pixelNeighbour = individual.getPixels().get(pixel.getY() - 1).get(pixel.getX());
-            if (!pixelNeighbour.isVisited()) {
+            if (!pixelNeighbour.getVisited()) {
                 newNeighbours
                         .add(new Edge(pixel, pixelNeighbour, findDistance(pixel.getRGB(), pixelNeighbour.getRGB())));
             }
