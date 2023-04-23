@@ -44,6 +44,7 @@ public class Prim {
                     .stream()
                     .filter(edge -> !edge.getTo().equals(newEdge.getTo()))
                     .collect(Collectors.toList());
+
             distances.addAll(findNeighbours(currentPixel, individual));
         }
 
