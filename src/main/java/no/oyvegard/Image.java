@@ -29,14 +29,14 @@ public class Image {
         generateBorders();
     }
 
-
-
     private void generateBorders() {
         for (List<Piksel> cluster : individual.getPixels()) {
-            List<Piksel> pixelsInCluster = individual.getPixels().stream().flatMap(Collection::stream).filter(pix -> pix.getClusterIndex() == cluster.get(0).getClusterIndex()).toList();
+            List<Piksel> pixelsInCluster = individual.getPixels().stream().flatMap(Collection::stream)
+                    .filter(pix -> pix.getClusterIndex() == cluster.get(0).getClusterIndex()).toList();
             for (Piksel piksel : cluster) {
                 List<List<Integer>> neighbours = piksel.getNeighbourIndices(this.width, this.height);
-                List<Piksel> adjPixelsInCluster = pixelsInCluster.stream().filter(pix -> neighbours.contains(Arrays.asList(pix.getX(), pix.getY()))).toList();
+                List<Piksel> adjPixelsInCluster = pixelsInCluster.stream()
+                        .filter(pix -> neighbours.contains(Arrays.asList(pix.getX(), pix.getY()))).toList();
                 if (adjPixelsInCluster.size() < 4) {
                     piksel.setIsBorder(true);
                 }
@@ -44,7 +44,12 @@ public class Image {
         }
     }
 
-    public void drawSegmentedImage(int segmentationType) {
+    public void outputSegmentedImages(String outputPath, String fileName) {
+        drawSegmentedImage(1, outputPath);
+        drawSegmentedImage(2, outputPath);
+    }
+
+    public void drawSegmentedImage(int segmentationType, String outputPath) {
         BufferedImage image;
         Color color;
         if (segmentationType == 1) {
@@ -65,10 +70,11 @@ public class Image {
 
             color = Color.BLACK;
         }
-        this.individual.getPixels().stream().flatMap(Collection::stream).filter(pix -> pix.getIsBorder()).forEach(pix -> image.setRGB(pix.getX(), pix.getY(), color.getRGB()));
+        this.individual.getPixels().stream().flatMap(Collection::stream).filter(pix -> pix.getIsBorder())
+                .forEach(pix -> image.setRGB(pix.getX(), pix.getY(), color.getRGB()));
 
         try {
-            ImageIO.write(image, "PNG", new File("test_image.png"));
+            ImageIO.write(image, "PNG", new File(outputPath));
         } catch (IOException e) {
             e.printStackTrace();
         }

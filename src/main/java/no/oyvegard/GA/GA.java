@@ -28,12 +28,12 @@ public abstract class GA {
     }
 
     protected void initPopulation() {
-        Prim prim = new Prim(image);
 
-        for (int i = 0; i < populationSize; i++) {
-            Individual individual = prim.generateIndividual();
-            population.add(individual);
-        }
+        population = IntStream.range(0, populationSize).parallel().mapToObj(i -> {
+            Prim prim = new Prim(image);
+            return prim.generateIndividual();
+        })
+                .collect(Collectors.toList());
 
     }
 

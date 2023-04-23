@@ -124,6 +124,10 @@ public class Individual implements GAIndividual {
                             System.out.println("Det var leit");
                         }
 
+                        if (oldClusterIndex >= clusters.size()) {
+                            System.out.println("Det var leit");
+                        }
+
                         clusters.get(oldClusterIndex).addAllPixels(cluster);
                         break;
                     }

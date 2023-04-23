@@ -19,18 +19,20 @@ public class Main {
 		fitnessFunctions.add((individual) -> Evaluator.ConnectivityMeasure(individual));
 		fitnessFunctions.add((individual) -> Evaluator.OverallDeviation(individual));
 
-		NSGA ga = new NSGA(0.2f, 0.8f, 100, fitnessFunctions);
-		try {
-			BufferedImage image = ImageIO.read(new File("src/main/resources/amogus.png"));
+		RunConfig config = new RunConfig();
 
-			ga.run(image, 20);
+		NSGA ga = new NSGA(config.mutationRate, config.crossoverRate, config.populationSize, fitnessFunctions);
+		try {
+			BufferedImage image = ImageIO.read(new File("training_images/86016/Test image.jpg"));
+
+			ga.run(image, config.nbrGenerations);
 
 			System.out.println("Done");
 
 			Individual best = (Individual) ga.getBestIndividual();
 
 			Image segmented = new Image(image, best);
-			segmented.drawSegmentedImage(1);
+			segmented.outputSegmentedImages(config.outputPath);
 
 		} catch (Exception e) {
 			// TODO: handle exception

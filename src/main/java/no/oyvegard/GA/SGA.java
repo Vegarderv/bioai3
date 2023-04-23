@@ -17,8 +17,6 @@ public class SGA extends GA {
 
     private HashMap<Function<GAIndividual, Double>, Double> evaluationFuctions;
 
-    
-
     public SGA(float mutationRate, float crossoverRate,
             HashMap<Function<GAIndividual, Double>, Double> evaluationFuctions) {
         this.mutationRate = mutationRate;
@@ -41,9 +39,9 @@ public class SGA extends GA {
 
     private double getEval(GAIndividual individual) {
         return evaluationFuctions.keySet()
-            .stream()
-            .map(func ->  func.apply(individual) * evaluationFuctions.get(func))
-            .reduce(0.0, Double::sum);
+                .stream()
+                .map(func -> func.apply(individual) * evaluationFuctions.get(func))
+                .reduce(0.0, Double::sum);
     }
 
     @Override
@@ -105,5 +103,11 @@ public class SGA extends GA {
     public GAIndividual getBestIndividual() {
         return population.get(populationSize - 1);
     }
-    
+
+    @Override
+    public List<GAIndividual> getBestIndividuals(int nbr) {
+        // TODO Auto-generated method stub
+        return population.subList(populationSize - nbr, populationSize);
+    }
+
 }

@@ -5,8 +5,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import javax.swing.event.SwingPropertyChangeSupport;
+import java.util.stream.IntStream;
 
 public class NSGA extends GA {
 
@@ -36,7 +35,7 @@ public class NSGA extends GA {
     }
 
     private void calculateFitnessValues() {
-        population.forEach(
+        population.stream().forEach(
                 individual -> {
                     individual.calculateClusters();
                     individual.setFitnessValues(
@@ -46,20 +45,17 @@ public class NSGA extends GA {
 
     @Override
     protected void generateNewPopulation() {
-        offspring.clear();
         // Create the new offspring
-        for (int i = 0; i < populationSize; i++) {
+        offspring = IntStream.range(0, populationSize).parallel().mapToObj(i -> {
             GAIndividual parent1 = tournamentParentSelection();
             GAIndividual parent2 = tournamentParentSelection();
 
             List<GAIndividual> children = crossover(parent1, parent2);
             mutate(children.get(0));
             mutate(children.get(1));
-            offspring.add(children.get(0));
-            offspring.add(children.get(1));
-        }
+            return children;
+        }).flatMap(List::stream).collect(Collectors.toList());
 
-        // merge the population and offspring
         population.addAll(offspring);
 
         // New evaluation

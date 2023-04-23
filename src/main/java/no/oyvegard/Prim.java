@@ -19,48 +19,6 @@ public class Prim {
         this.image = image;
         this.height = image.getHeight();
         this.width = image.getWidth();
-        generateDistanceMatrix();
-
-    }
-
-    private void generateDistanceMatrix() {
-        List<List<Double>> distanceMatrix = new ArrayList<>();
-
-        // Generating an empty matrix
-        for (int y = 0; y < height * width; y++) {
-            List<Double> row = new ArrayList<>();
-            for (int x = 0; x < height * width; x++) {
-                row.add(0.0);
-            }
-            distanceMatrix.add(row);
-        }
-
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                int pixel = image.getRGB(x, y);
-
-                if (x > 0) {
-                    int neighbor = image.getRGB(x - 1, y);
-                    distanceMatrix.get(y * width + x).set(y * width + (x - 1), findDistance(pixel, neighbor));
-                }
-
-                if (x < width - 1) {
-                    int neighbor = image.getRGB(x + 1, y);
-                    distanceMatrix.get(y * width + x + 1).set(y * width + (x + 1), findDistance(pixel, neighbor));
-                }
-                if (y > 0) {
-                    int neighbor = image.getRGB(x, y - 1);
-                    distanceMatrix.get(y * width + x).set((y - 1) * width + x, findDistance(pixel, neighbor));
-                }
-                if (y < height - 1) {
-                    int neighbor = image.getRGB(x, y + 1);
-                    distanceMatrix.get(y * width + x).set((y + 1) * width + x, findDistance(pixel, neighbor));
-                }
-            }
-        }
-
-        this.distanceMatrix = distanceMatrix;
-
     }
 
     public Individual generateIndividual() {
@@ -117,29 +75,32 @@ public class Prim {
     private List<Edge> findNeighbours(Piksel pixel, Individual individual) {
         List<Edge> newNeighbours = new ArrayList<>();
 
-
         if (pixel.getX() > 0) {
             Piksel pixelNeighbour = individual.getPixels().get(pixel.getY()).get(pixel.getX() - 1);
             if (!pixelNeighbour.isVisited()) {
-                newNeighbours.add(new Edge(pixel, pixelNeighbour, findDistance(pixel.getRGB(), pixelNeighbour.getRGB())));
+                newNeighbours
+                        .add(new Edge(pixel, pixelNeighbour, findDistance(pixel.getRGB(), pixelNeighbour.getRGB())));
             }
         }
         if (pixel.getX() < width - 1) {
             Piksel pixelNeighbour = individual.getPixels().get(pixel.getY()).get(pixel.getX() + 1);
             if (!pixelNeighbour.isVisited()) {
-                newNeighbours.add(new Edge(pixel, pixelNeighbour, findDistance(pixel.getRGB(), pixelNeighbour.getRGB())));
+                newNeighbours
+                        .add(new Edge(pixel, pixelNeighbour, findDistance(pixel.getRGB(), pixelNeighbour.getRGB())));
             }
         }
         if (pixel.getY() < height - 1) {
             Piksel pixelNeighbour = individual.getPixels().get(pixel.getY() + 1).get(pixel.getX());
             if (!pixelNeighbour.isVisited()) {
-                newNeighbours.add(new Edge(pixel, pixelNeighbour, findDistance(pixel.getRGB(), pixelNeighbour.getRGB())));
+                newNeighbours
+                        .add(new Edge(pixel, pixelNeighbour, findDistance(pixel.getRGB(), pixelNeighbour.getRGB())));
             }
         }
         if (pixel.getY() > 0) {
             Piksel pixelNeighbour = individual.getPixels().get(pixel.getY() - 1).get(pixel.getX());
             if (!pixelNeighbour.isVisited()) {
-                newNeighbours.add(new Edge(pixel, pixelNeighbour, findDistance(pixel.getRGB(), pixelNeighbour.getRGB())));
+                newNeighbours
+                        .add(new Edge(pixel, pixelNeighbour, findDistance(pixel.getRGB(), pixelNeighbour.getRGB())));
             }
         }
 
