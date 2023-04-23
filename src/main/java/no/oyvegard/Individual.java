@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import no.oyvegard.GA.*;
 
@@ -205,14 +206,14 @@ public class Individual implements GAIndividual {
     public List<GAIndividual> crossover(GAIndividual other) {
         int splitPoint = new Random().nextInt(width * height - 3) + 1;
         List<GAIndividual> res = new ArrayList<>();
-        List<Piksel> pixels1 = this.getPixels().stream().flatMap(Collection::stream).toList();
-        List<Piksel> pixels2 = other.getPixels().stream().flatMap(Collection::stream).toList();
+        List<Piksel> pixels1 = this.getPixels().stream().flatMap(Collection::stream).collect(Collectors.toList());
+        List<Piksel> pixels2 = other.getPixels().stream().flatMap(Collection::stream).collect(Collectors.toList());
 
-        List<Piksel> newPixels1 = pixels1.subList(0, splitPoint);
-        pixels1.addAll(pixels2.subList(splitPoint, width * height - 1));
-        
-        List<Piksel> newPixels2 = pixels2.subList(0, splitPoint);
-        pixels2.addAll(pixels1.subList(splitPoint, width * height - 1));
+        List<Piksel> newPixels1 = new ArrayList<>(pixels1.subList(0, splitPoint));
+        newPixels1.addAll(pixels2.subList(splitPoint, width * height));
+
+        List<Piksel> newPixels2 = new ArrayList<>(pixels2.subList(0, splitPoint));
+        newPixels2.addAll(pixels1.subList(splitPoint, width * height));
 
         res.add(new Individual(this, unFlatMapper(newPixels1)));
         res.add(new Individual(this, unFlatMapper(newPixels2)));

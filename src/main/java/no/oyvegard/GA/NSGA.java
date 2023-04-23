@@ -236,4 +236,10 @@ public class NSGA extends GA {
         return frontList.get(0).get(0);
     }
 
+    @Override
+    public List<GAIndividual> getBestIndividuals(int nbr) {
+        evaluatePopulation();
+        return frontList.get(0).subList(0, nbr);
+    }
+
 }

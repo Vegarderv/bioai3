@@ -22,6 +22,9 @@ public class Cluster {
     }
 
     public Piksel getCentroid() {
+        if (pixels.size() == 0) {
+            return null;
+        }
         List<Integer> colors = pixels.stream().map(p -> {
             return Arrays.asList(p.getRed(), p.getBlue(), p.getGreen());
         }).reduce(Arrays.asList(0, 0, 0), (a, b) -> {
