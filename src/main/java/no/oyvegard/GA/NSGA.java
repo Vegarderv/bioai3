@@ -32,6 +32,11 @@ public class NSGA extends GA {
         nonDominationSorting();
         crowdingDistanceSortedPopulation();
 
+        // population.stream().forEach(individual -> {
+        // individual.getFitnessValues().forEach(System.out::print);
+        // System.out.println();
+        // });
+
     }
 
     private void calculateFitnessValues() {
@@ -113,14 +118,19 @@ public class NSGA extends GA {
     }
 
     private boolean dominates(GAIndividual individual, GAIndividual other) {
-        boolean res = true;
+        int strictCount = 0;
         List<Double> f1 = individual.getFitnessValues();
         List<Double> f2 = other.getFitnessValues();
         for (int i = 0; i < f1.size(); i++) {
-            res = res && (f1.get(i) > f2.get(i));
+            if (f1.get(i) < f2.get(i)) {
+                return false;
+            }
+            if (f1.get(i) > f2.get(i)) {
+                strictCount += 1;
+            }
         }
 
-        return res;
+        return strictCount > 0;
 
     }
 
