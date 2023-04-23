@@ -23,7 +23,7 @@ public class Main {
 
 		NSGA ga = new NSGA(config.mutationRate, config.crossoverRate, config.populationSize, fitnessFunctions);
 		try {
-			BufferedImage image = ImageIO.read(new File("training_images/86016/Test image.jpg"));
+			BufferedImage image = ImageIO.read(new File("src/main/resources/amogus.png"));
 
 			ga.run(image, config.nbrGenerations);
 
@@ -32,7 +32,7 @@ public class Main {
 			Individual best = (Individual) ga.getBestIndividual();
 
 			Image segmented = new Image(image, best);
-			segmented.outputSegmentedImages(config.outputPath);
+			segmented.outputSegmentedImages(config.outputPath, "Tester123");
 
 		} catch (Exception e) {
 			// TODO: handle exception
