@@ -22,7 +22,6 @@ public class Prim {
     }
 
     public Individual generateIndividual() {
-        System.out.println("New :)");
         List<Edge> distances = new ArrayList<>();
         Individual individual = new Individual(width, height, image);
 
