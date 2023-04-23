@@ -64,36 +64,35 @@ public class Prim {
     }
 
     public Individual generateIndividual() {
-        List<List<Integer>> visitedPixels = new ArrayList<>();
         List<Edge> distances = new ArrayList<>();
-        Individual individual = new Individual(width, height);
+        Individual individual = new Individual(width, height, image);
 
         // Generate random starting point
         int randomX = new Random().nextInt(width);
         int randomY = new Random().nextInt(height);
 
-        List<Integer> currentPixel = Arrays.asList(randomX, randomY);
-        distances.addAll(findNeighbours(currentPixel, visitedPixels));
+        Piksel currentPixel = individual.getPixels().get(randomY).get(randomX);
+        distances.addAll(findNeighbours(currentPixel, individual));
 
         while (distances.size() > 0) {
-            visitedPixels.add(new ArrayList<>(currentPixel));
-            Edge newEdge = distances.stream()
+            currentPixel.setVisited(true);
+            Edge newEdge = distances
+                    .stream()
                     .min(Comparator.comparingDouble(Edge::getDistance))
                     .get();
             currentPixel = newEdge.getTo();
-            individual.changeDirection(currentPixel, newEdge.direction);
-            List<Integer> rgb = getRGB(currentPixel.get(0), currentPixel.get(1));
-            individual.changePixelColor(currentPixel.get(0), currentPixel.get(1), rgb.get(0), rgb.get(1), rgb.get(2));
-            distances = distances.stream().filter(edge -> !edge.getTo().equals(newEdge.getTo()))
+            distances = distances
+                    .stream()
+                    .filter(edge -> !edge.getTo().equals(newEdge.getTo()))
                     .collect(Collectors.toList());
-            distances.addAll(findNeighbours(currentPixel, visitedPixels));
+            distances.addAll(findNeighbours(currentPixel, individual));
         }
 
         return individual;
 
     }
 
-    private List<Integer> getRGB(int pixel1, int pixel2) {
+    private List<Integer> getRGB(int pixel1) {
         int red = (pixel1 >> 16) & 0xff;
         int green = (pixel1 >> 8) & 0xff;
         int blue = pixel1 & 0xff;
@@ -103,7 +102,7 @@ public class Prim {
     }
 
     private double findDistance(int pixel1, int pixel2) {
-        List<Integer> rgb = getRGB(pixel1, pixel2);
+        List<Integer> rgb = getRGB(pixel1);
         int red = rgb.get(0);
         int green = rgb.get(1);
         int blue = rgb.get(2);
@@ -115,38 +114,32 @@ public class Prim {
                 + Math.pow(green - pixel2Green, 2) + Math.pow(blue - pixel2Blue, 2));
     }
 
-    private double findDistance(List<Integer> pixel1, List<Integer> pixel2) {
-        return distanceMatrix.get(pixel1.get(1) * width + pixel1.get(0)).get(pixel2.get(1) * width + pixel2.get(0));
-    }
-
-    private List<Edge> findNeighbours(List<Integer> pixel, List<List<Integer>> visited) {
+    private List<Edge> findNeighbours(Piksel pixel, Individual individual) {
         List<Edge> newNeighbours = new ArrayList<>();
 
-        if (pixel.get(0) > 0) {
-            List<Integer> pixelNeighbour = Arrays.asList(pixel.get(0) - 1, pixel.get(1));
-            if (!visited.stream().anyMatch(pix -> pix.equals(pixelNeighbour))) {
-                newNeighbours.add(new Edge(pixel, pixelNeighbour, findDistance(pixel, pixelNeighbour)));
+
+        if (pixel.getX() > 0) {
+            Piksel pixelNeighbour = individual.getPixels().get(pixel.getY()).get(pixel.getX() - 1);
+            if (!pixelNeighbour.isVisited()) {
+                newNeighbours.add(new Edge(pixel, pixelNeighbour, findDistance(pixel.getRGB(), pixelNeighbour.getRGB())));
             }
         }
-
-        if (pixel.get(0) < width - 1) {
-            List<Integer> pixelNeighbour = Arrays.asList(pixel.get(0) + 1, pixel.get(1));
-            if (!visited.stream().anyMatch(pix -> pix.equals(pixelNeighbour))) {
-                newNeighbours.add(new Edge(pixel, pixelNeighbour, findDistance(pixel, pixelNeighbour)));
+        if (pixel.getX() < width - 1) {
+            Piksel pixelNeighbour = individual.getPixels().get(pixel.getY()).get(pixel.getX() + 1);
+            if (!pixelNeighbour.isVisited()) {
+                newNeighbours.add(new Edge(pixel, pixelNeighbour, findDistance(pixel.getRGB(), pixelNeighbour.getRGB())));
             }
         }
-
-        if (pixel.get(1) > 0) {
-            List<Integer> pixelNeighbour = Arrays.asList(pixel.get(0), pixel.get(1) - 1);
-            if (!visited.stream().anyMatch(pix -> pix.equals(pixelNeighbour))) {
-                newNeighbours.add(new Edge(pixel, pixelNeighbour, findDistance(pixel, pixelNeighbour)));
+        if (pixel.getY() < height - 1) {
+            Piksel pixelNeighbour = individual.getPixels().get(pixel.getY() + 1).get(pixel.getX());
+            if (!pixelNeighbour.isVisited()) {
+                newNeighbours.add(new Edge(pixel, pixelNeighbour, findDistance(pixel.getRGB(), pixelNeighbour.getRGB())));
             }
         }
-
-        if (pixel.get(1) < height - 1) {
-            List<Integer> pixelNeighbour = Arrays.asList(pixel.get(0), pixel.get(1) + 1);
-            if (!visited.stream().anyMatch(pix -> pix.equals(pixelNeighbour))) {
-                newNeighbours.add(new Edge(pixel, pixelNeighbour, findDistance(pixel, pixelNeighbour)));
+        if (pixel.getY() > 0) {
+            Piksel pixelNeighbour = individual.getPixels().get(pixel.getY() - 1).get(pixel.getX());
+            if (!pixelNeighbour.isVisited()) {
+                newNeighbours.add(new Edge(pixel, pixelNeighbour, findDistance(pixel.getRGB(), pixelNeighbour.getRGB())));
             }
         }
 

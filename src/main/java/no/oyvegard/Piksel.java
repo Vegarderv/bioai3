@@ -17,10 +17,19 @@ public class Piksel {
     private int x;
     private int y;
     private boolean isBorder = false;
+    private boolean isVisited = false;
 
     public Piksel(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    public Piksel(int x, int y, int RGB) {
+        this.x = x;
+        this.y = y;
+        red = (RGB >> 16) & 0xff;
+        green = (RGB >> 8) & 0xff;
+        blue = RGB & 0xff;
     }
 
     private int clusterIndex = -1;
@@ -100,10 +109,22 @@ public class Piksel {
         this.y = y;
     }
 
+    public boolean getVisited() {
+        return this.isVisited;
+    }
+
+    public void setVisited(boolean isVisited) {
+        this.isVisited = isVisited;
+    }
+
     public void setRGB(int r, int g, int b) {
         this.red = r;
         this.green = g;
         this.blue = b;
+    }
+
+    public int getRGB() {
+        return ((red&0x0ff)<<16)|((green&0x0ff)<<8)|(blue&0x0ff);
     }
 
     public boolean getIsBorder() {

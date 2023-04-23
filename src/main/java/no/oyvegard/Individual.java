@@ -1,11 +1,11 @@
 package no.oyvegard;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
-import java.util.PrimitiveIterator.OfDouble;
 
 import no.oyvegard.GA.*;
 
@@ -22,10 +22,10 @@ public class Individual implements GAIndividual {
     private List<GAIndividual> dominatedSolutions = new ArrayList<>();
     private List<Double> fitnessValues = new ArrayList<>();
 
-    public Individual(int width, int height) {
+    public Individual(int width, int height, BufferedImage img) {
         this.width = width;
         this.height = height;
-        generateBoard();
+        generateBoard(img);
     }
 
     public Individual(Individual ind, List<List<Piksel>> pixels) {
@@ -34,12 +34,13 @@ public class Individual implements GAIndividual {
         this.pixels = pixels;
     }
 
-    private void generateBoard() {
+    private void generateBoard(BufferedImage img) {
         List<List<Piksel>> board = new ArrayList<>();
         for (int i = 0; i < height; i++) {
             List<Piksel> row = new ArrayList<>();
             for (int j = 0; j < width; j++) {
-                row.add(new Piksel(j, i));
+                row.add(new Piksel(j, i, img.getRGB(j, i)));
+                
             }
             board.add(row);
         }
@@ -62,9 +63,6 @@ public class Individual implements GAIndividual {
         return outList;
     }
 
-    public void changeDirection(List<Integer> pixel, Direction direction) {
-        pixels.get(pixel.get(1)).get(pixel.get(0)).setDirection(direction);
-    }
 
     public void changePixelColor(int x, int y, int r, int g, int b) {
         Piksel pixel = pixels.get(y).get(x);

@@ -1,24 +1,22 @@
 package no.oyvegard;
 
-import java.util.List;
-
 public class Edge {
-    List<Integer> from;
-    List<Integer> to;
+    Piksel from;
+    Piksel to;
     double distance;
     Direction direction;
     
-    public Edge(List<Integer> from, List<Integer> to, double distance) {
+    public Edge(Piksel from, Piksel to, double distance) {
         this.from = from;
         this.to = to;
         this.distance = distance;
-        if (from.get(0) == to.get(0) - 1) {
+        if (from.getX() == to.getX() - 1) {
             direction = Direction.LEFT;
         }
-        else if (from.get(0) == to.get(0) + 1) {
+        else if (from.getX() == to.getX() + 1) {
             direction = Direction.RIGHT;
         }
-        else if (from.get(1) == to.get(1) - 1) {
+        else if (from.getY() == to.getY() - 1) {
             direction = Direction.UP;
         }
         else {
@@ -30,11 +28,11 @@ public class Edge {
         return distance;
     }
 
-    public List<Integer> getFrom() {
+    public Piksel getFrom() {
         return from;
     }
 
-    public List<Integer> getTo() {
+    public Piksel getTo() {
         return to;
     }
 
