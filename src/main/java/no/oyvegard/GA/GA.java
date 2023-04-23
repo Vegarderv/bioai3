@@ -33,6 +33,8 @@ public abstract class GA {
             return prim.generateIndividual();
         })
                 .collect(Collectors.toList());
+        population.get(0).calculateClusters();
+        System.out.println(population.get(0).getClusters().size());
 
     }
 
