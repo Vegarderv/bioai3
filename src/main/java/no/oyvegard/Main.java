@@ -32,7 +32,7 @@ public class Main {
 			Individual best = (Individual) ga.getBestIndividual();
 
 			Image segmented = new Image(image, best);
-			segmented.outputSegmentedImages(config.outputPath);
+			segmented.outputSegmentedImages(config.outputPath, config.dataFile);
 
 		} catch (Exception e) {
 			// TODO: handle exception
