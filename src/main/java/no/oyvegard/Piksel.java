@@ -124,7 +124,7 @@ public class Piksel {
     }
 
     public int getRGB() {
-        return ((red&0x0ff)<<16)|((green&0x0ff)<<8)|(blue&0x0ff);
+        return ((red & 0x0ff) << 16) | ((green & 0x0ff) << 8) | (blue & 0x0ff);
     }
 
     public boolean getIsBorder() {
@@ -157,11 +157,21 @@ public class Piksel {
 
     @Override
     public boolean equals(Object obj) {
-        if (!obj.getClass().equals(Piksel.class)){
+        if (!obj.getClass().equals(Piksel.class)) {
             throw new IllegalArgumentException("Must compare piksel with piksel");
         }
         Piksel other = (Piksel) obj;
         return this.x == other.getX() && this.y == other.getY();
+    }
+
+    public Piksel clone() {
+        Piksel clone = new Piksel(this.x, this.y);
+        clone.setRGB(this.red, this.green, this.blue);
+        clone.setIsBorder(this.isBorder);
+        clone.setVisited(this.isVisited);
+        clone.setDirection(this.direction);
+        clone.setClusterIndex(this.clusterIndex);
+        return clone;
     }
 
 }

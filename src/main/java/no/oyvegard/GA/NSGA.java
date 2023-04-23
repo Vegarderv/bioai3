@@ -35,12 +35,7 @@ public class NSGA extends GA {
     }
 
     private void calculateFitnessValues() {
-        if (population.stream().distinct().count() != population.size()) {
-            System.out.println(population.size());
-            System.out.println(population.stream().distinct().count());
-            throw new RuntimeException("Population contains duplicates");
-        }
-        population.stream().forEach(
+        population.parallelStream().forEach(
                 individual -> {
                     individual.calculateClusters();
                     individual.setFitnessValues(

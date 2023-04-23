@@ -218,8 +218,10 @@ public class Individual implements GAIndividual {
         List<Piksel> newPixels2 = new ArrayList<>(pixels2.subList(0, splitPoint));
         newPixels2.addAll(pixels1.subList(splitPoint, width * height));
 
-        res.add(new Individual(this, unFlatMapper(newPixels1)));
-        res.add(new Individual(this, unFlatMapper(newPixels2)));
+        res.add(new Individual(this,
+                unFlatMapper(newPixels1.stream().map(Piksel::clone).collect(Collectors.toList()))));
+        res.add(new Individual(this,
+                unFlatMapper(newPixels2.stream().map(Piksel::clone).collect(Collectors.toList()))));
 
         return res;
     }
@@ -257,7 +259,9 @@ public class Individual implements GAIndividual {
     }
 
     public Individual clone() {
-        return new Individual(this, new ArrayList<>(pixels));
+        List<Piksel> newPixels = pixels.stream().flatMap(Collection::stream).map(Piksel::clone)
+                .collect(Collectors.toList());
+        return new Individual(this, unFlatMapper(newPixels));
     }
 
 }
