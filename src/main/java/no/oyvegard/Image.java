@@ -45,8 +45,8 @@ public class Image {
     }
 
     public void outputSegmentedImages(String outputPath, String fileName) {
-        drawSegmentedImage(1, outputPath);
-        drawSegmentedImage(2, outputPath);
+        drawSegmentedImage(1, outputPath + "1.jpg");
+        drawSegmentedImage(2, outputPath + "2.jpg");
     }
 
     public void drawSegmentedImage(int segmentationType, String outputPath) {
