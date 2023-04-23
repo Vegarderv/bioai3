@@ -30,15 +30,15 @@ public class Image {
     }
 
     private void generateBorders() {
-        for (List<Piksel> cluster : individual.getPixels()) {
-            List<Piksel> pixelsInCluster = individual.getPixels().stream().flatMap(Collection::stream)
-                    .filter(pix -> pix.getClusterIndex() == cluster.get(0).getClusterIndex()).toList();
-            for (Piksel piksel : cluster) {
-                List<List<Integer>> neighbours = piksel.getNeighbourIndices(this.width, this.height);
-                List<Piksel> adjPixelsInCluster = pixelsInCluster.stream()
-                        .filter(pix -> neighbours.contains(Arrays.asList(pix.getX(), pix.getY()))).toList();
-                if (adjPixelsInCluster.size() < 4) {
-                    piksel.setIsBorder(true);
+        for (Cluster cluster : individual.getClusters()) {
+            for (Piksel pixel : cluster.getPixels()) {
+                List<List<Integer>> neighbours = pixel.getNeighbourIndices(this.width, this.height);
+                int sameClusterCount = neighbours.stream().map(indices -> {
+                    return individual.getPixels().get(indices.get(1)).get(indices.get(0));
+                }).filter(pix -> pix.getClusterIndex() == pixel.getClusterIndex()).toList().size();
+
+                if (sameClusterCount < 4) {
+                    pixel.setIsBorder(true);
                 }
             }
         }

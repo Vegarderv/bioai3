@@ -36,10 +36,6 @@ public abstract class GA {
         population.get(0).calculateClusters();
         System.out.println(population.get(0).getClusters().size());
 
-        ((Individual) population.get(0)).printDirections();
-        population.get(0).calculateClusters();
-        System.out.println(population.get(0).getClusters().size());
-
     }
 
     private void runGeneration() {
