@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import me.tongfei.progressbar.ProgressBar;
-import no.oyvegard.Individual;
 import no.oyvegard.Prim;
 
 public abstract class GA {
