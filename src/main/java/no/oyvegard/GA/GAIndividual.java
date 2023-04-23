@@ -35,4 +35,6 @@ public interface GAIndividual {
 
     public List<Integer> getSize();
 
+    public GAIndividual clone();
+
 }

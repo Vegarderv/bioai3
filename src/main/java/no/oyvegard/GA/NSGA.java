@@ -36,6 +36,8 @@ public class NSGA extends GA {
 
     private void calculateFitnessValues() {
         if (population.stream().distinct().count() != population.size()) {
+            System.out.println(population.size());
+            System.out.println(population.stream().distinct().count());
             throw new RuntimeException("Population contains duplicates");
         }
         population.stream().forEach(
@@ -171,7 +173,7 @@ public class NSGA extends GA {
     }
 
     private void limitSortedPopulation() {
-        int targetSize = populationSize / 2;
+        int targetSize = populationSize;
         int size = 0;
 
         List<GAIndividual> newPopulation = new ArrayList<>();
@@ -186,6 +188,8 @@ public class NSGA extends GA {
                 break;
             }
         }
+
+        population = newPopulation;
 
     }
 
@@ -222,8 +226,8 @@ public class NSGA extends GA {
             offspring.add(children.get(0));
             offspring.add(children.get(1));
         } else {
-            offspring.add(parent1);
-            offspring.add(parent2);
+            offspring.add(parent1.clone());
+            offspring.add(parent2.clone());
         }
 
         return offspring;

@@ -41,7 +41,7 @@ public class Individual implements GAIndividual {
             List<Piksel> row = new ArrayList<>();
             for (int j = 0; j < width; j++) {
                 row.add(new Piksel(j, i, img.getRGB(j, i)));
-                
+
             }
             board.add(row);
         }
@@ -63,7 +63,6 @@ public class Individual implements GAIndividual {
         }
         return outList;
     }
-
 
     public void changePixelColor(int x, int y, int r, int g, int b) {
         Piksel pixel = pixels.get(y).get(x);
@@ -255,6 +254,10 @@ public class Individual implements GAIndividual {
 
     public void setClusters(List<Cluster> clusters) {
         this.clusters = clusters;
+    }
+
+    public Individual clone() {
+        return new Individual(this, new ArrayList<>(pixels));
     }
 
 }

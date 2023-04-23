@@ -23,7 +23,7 @@ public class Main {
 
 		NSGA ga = new NSGA(config.mutationRate, config.crossoverRate, config.populationSize, fitnessFunctions);
 		try {
-			BufferedImage image = ImageIO.read(new File("src/main/resources/amogus.png"));
+			BufferedImage image = ImageIO.read(new File(config.dataFile));
 
 			ga.run(image, config.nbrGenerations);
 
