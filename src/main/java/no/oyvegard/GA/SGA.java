@@ -12,21 +12,22 @@ public class SGA extends GA {
 
     private float mutationRate;
     private float crossoverRate;
-    private List<GAIndividual> offspring;
+    private List<GAIndividual> offspring = new ArrayList<>();
     private List<Double> ranking = new ArrayList<>();
 
     private HashMap<Function<GAIndividual, Double>, Double> evaluationFuctions;
 
     public SGA(float mutationRate, float crossoverRate,
-            HashMap<Function<GAIndividual, Double>, Double> evaluationFuctions) {
+            HashMap<Function<GAIndividual, Double>, Double> evaluationFuctions, int populationSize) {
         this.mutationRate = mutationRate;
         this.crossoverRate = crossoverRate;
         this.evaluationFuctions = evaluationFuctions;
+        this.populationSize = populationSize;
         createRanking();
     }
 
     private void createRanking() {
-        for (int i = 0; i < population.size(); i++) {
+        for (int i = 0; i < populationSize; i++) {
             ranking.add((2 - SFACTOR) / populationSize + 2 * i * (SFACTOR - 1)
                     / (populationSize * (populationSize - 1)));
         }
@@ -38,6 +39,7 @@ public class SGA extends GA {
     }
 
     private double getEval(GAIndividual individual) {
+        individual.calculateClusters();
         return evaluationFuctions.keySet()
                 .stream()
                 .map(func -> func.apply(individual) * evaluationFuctions.get(func))
@@ -58,6 +60,7 @@ public class SGA extends GA {
             offspring.add(children.get(0));
             offspring.add(children.get(1));
         }
+        population.clear();
 
         // merge the population and offspring
         population.addAll(offspring);
@@ -106,7 +109,6 @@ public class SGA extends GA {
 
     @Override
     public List<GAIndividual> getBestIndividuals(int nbr) {
-        // TODO Auto-generated method stub
         return population.subList(populationSize - nbr, populationSize);
     }
 

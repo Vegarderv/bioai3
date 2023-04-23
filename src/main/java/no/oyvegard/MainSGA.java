@@ -2,26 +2,23 @@ package no.oyvegard;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.function.Function;
 
 import javax.imageio.ImageIO;
 
-import no.oyvegard.GA.NSGA;
 import no.oyvegard.GA.*;
 
-public class Main {
-
-	public static void main(String[] args) {
-		List<Function<GAIndividual, Double>> fitnessFunctions = new ArrayList<>();
-		fitnessFunctions.add((individual) -> Evaluator.EdgeValue(individual));
-		fitnessFunctions.add((individual) -> Evaluator.ConnectivityMeasure(individual));
-		fitnessFunctions.add((individual) -> Evaluator.OverallDeviation(individual));
+public class MainSGA {
+    public static void main(String[] args) {
+		HashMap<Function<GAIndividual, Double>, Double> fitnessFunctions = new HashMap<>();
+		fitnessFunctions.put((individual) -> Evaluator.EdgeValue(individual), 1.0);
+		fitnessFunctions.put((individual) -> Evaluator.ConnectivityMeasure(individual), 1.0);
+		fitnessFunctions.put((individual) -> Evaluator.OverallDeviation(individual), 1.0);
 
 		RunConfig config = new RunConfig();
 
-		NSGA ga = new NSGA(config.mutationRate, config.crossoverRate, config.populationSize, fitnessFunctions);
+		SGA ga = new SGA(config.mutationRate, config.crossoverRate, fitnessFunctions, config.populationSize);
 		try {
 			BufferedImage image = ImageIO.read(new File(config.dataFile));
 
