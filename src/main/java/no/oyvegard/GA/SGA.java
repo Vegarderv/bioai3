@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class SGA extends GA {
 
@@ -35,13 +36,13 @@ public class SGA extends GA {
 
     @Override
     protected void evaluatePopulation() {
-        population.sort((ind1, ind2) -> Double.compare(getEval(ind1), getEval(ind2)));
+        population = population.parallelStream().sorted((ind1, ind2) -> Double.compare(getEval(ind1), getEval(ind2))).collect(Collectors.toList());
     }
 
     private double getEval(GAIndividual individual) {
         individual.calculateClusters();
         return evaluationFuctions.keySet()
-                .stream()
+                .parallelStream()
                 .map(func -> func.apply(individual) * evaluationFuctions.get(func))
                 .reduce(0.0, Double::sum);
     }

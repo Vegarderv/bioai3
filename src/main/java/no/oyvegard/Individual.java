@@ -251,6 +251,22 @@ public class Individual implements GAIndividual {
         }
     }
 
+    public void printClusters() {
+        // Prints a grid of the directions of the pixels
+        for (List<Piksel> row : pixels) {
+            for (Piksel pixel : row) {
+
+                int clust = pixel.getClusterIndex();
+                if (clust == -1) {
+                    System.out.print(" ");
+                    continue;
+                }
+                System.out.print(clust);
+            }
+            System.out.println();
+        }
+    }
+
     public List<Cluster> getClusters() {
         return clusters;
     }
