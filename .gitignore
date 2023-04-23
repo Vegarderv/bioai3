@@ -2,4 +2,4 @@ target
 .vscode
 .bloop
 .metals
-.jpg
+*.jpg

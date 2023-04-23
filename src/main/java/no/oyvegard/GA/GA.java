@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import me.tongfei.progressbar.ProgressBar;
-import no.oyvegard.Prim;
+import no.oyvegard.*;
 
 public abstract class GA {
 
@@ -33,6 +33,10 @@ public abstract class GA {
             return prim.generateIndividual();
         })
                 .collect(Collectors.toList());
+
+        ((Individual) population.get(0)).printDirections();
+        population.get(0).calculateClusters();
+        System.out.println(population.get(0).getClusters().size());
 
     }
 

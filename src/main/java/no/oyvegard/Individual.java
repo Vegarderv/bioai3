@@ -128,6 +128,7 @@ public class Individual implements GAIndividual {
                         }
 
                         clusters.get(oldClusterIndex).addAllPixels(cluster);
+                        foundOldCluster = true;
                         break;
                     }
 

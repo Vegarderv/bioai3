@@ -25,7 +25,7 @@ public class TestNSGA {
         Individual solution = prim.generateIndividual();
         solution.calculateClusters();
         Image img = new Image(image, solution);
-        img.drawSegmentedImage(2, "test.jpg");
+        img.drawSegmentedImage(2, "test");
     }
 
     public static void main(String[] args) {
