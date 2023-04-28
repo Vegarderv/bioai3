@@ -3,8 +3,11 @@ package no.oyvegard;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
+import java.nio.Buffer;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -49,7 +52,7 @@ public class Image {
         BufferedImage image;
         Color color;
         if (segmentationType == 1) {
-            image = this.img;
+            image = deepCopy(this.img);
             color = Color.GREEN;
         } else {
             image = new BufferedImage(this.width, this.height, BufferedImage.TYPE_INT_RGB);
@@ -67,16 +70,23 @@ public class Image {
             color = Color.BLACK;
         }
         this.individual.getPixels()
-            .stream()
-            .flatMap(Collection::stream)
-            .filter(pix -> pix.getIsBorder())
-            .forEach(pix -> image.setRGB(pix.getX(), pix.getY(), color.getRGB()));
+                .stream()
+                .flatMap(Collection::stream)
+                .filter(pix -> pix.getIsBorder())
+                .forEach(pix -> image.setRGB(pix.getX(), pix.getY(), color.getRGB()));
 
         try {
             ImageIO.write(image, "PNG", new File(outputPath));
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    static BufferedImage deepCopy(BufferedImage bi) {
+        ColorModel cm = bi.getColorModel();
+        boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
+        WritableRaster raster = bi.copyData(null);
+        return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
     }
 
 }
