@@ -12,9 +12,9 @@ import no.oyvegard.GA.*;
 public class MainSGA {
     public static void main(String[] args) {
 		HashMap<Function<GAIndividual, Double>, Double> fitnessFunctions = new HashMap<>();
-		fitnessFunctions.put((individual) -> Evaluator.EdgeValue(individual), 0.1);
-		fitnessFunctions.put((individual) -> Evaluator.ConnectivityMeasure(individual), 30.0);
-		fitnessFunctions.put((individual) -> Evaluator.OverallDeviation(individual), 0.15);
+		fitnessFunctions.put((individual) -> Evaluator.EdgeValue(individual), 0.03);
+		fitnessFunctions.put((individual) -> Evaluator.ConnectivityMeasure(individual), 11.0);
+		fitnessFunctions.put((individual) -> Evaluator.OverallDeviation(individual), 0.04);
 
 		RunConfig config = new RunConfig();
 
