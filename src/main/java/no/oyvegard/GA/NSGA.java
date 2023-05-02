@@ -31,12 +31,6 @@ public class NSGA extends GA {
         calculateFitnessValues();
         nonDominationSorting();
         crowdingDistanceSortedPopulation();
-
-        // population.stream().forEach(individual -> {
-        // individual.getFitnessValues().forEach(System.out::print);
-        // System.out.println();
-        // });
-
     }
 
     private void calculateFitnessValues() {
@@ -187,8 +181,8 @@ public class NSGA extends GA {
             if (size + front.size() < targetSize) {
                 newPopulation.addAll(front);
             } else {
-                front.sort((GAIndividual a, GAIndividual b) -> a.getCrowdingDistance()
-                        .compareTo(b.getCrowdingDistance()));
+                front.sort((GAIndividual a, GAIndividual b) -> b.getCrowdingDistance()
+                        .compareTo(a.getCrowdingDistance()));
                 newPopulation.addAll(front.subList(0, targetSize - size));
                 break;
             }
@@ -247,7 +241,20 @@ public class NSGA extends GA {
     @Override
     public List<GAIndividual> getBestIndividuals(int nbr) {
         evaluatePopulation();
-        return frontList.get(0).subList(0, nbr);
+
+        int l = frontList.get(0).size();
+        if (l < nbr) {
+            return frontList.get(0);
+        }
+
+        float spread = ((float) l / (float) (nbr + 2));
+        List<GAIndividual> result = new ArrayList<>();
+        System.out.println(frontList.get(0).size());
+        for (int i = 1; i < nbr + 1; i++) {
+            result.add(frontList.get(0).get(Math.round(spread * i)));
+        }
+
+        return result;
     }
 
 }

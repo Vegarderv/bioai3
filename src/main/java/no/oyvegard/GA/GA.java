@@ -19,7 +19,7 @@ public abstract class GA {
     public void run(BufferedImage image, int nbrGenerations) {
         this.image = image;
         initPopulation();
-        System.out.println("Populationzed" + population.size());
+        System.out.println();
         List<Integer> range = IntStream.range(0, nbrGenerations).boxed().collect(Collectors.toList());
         for (int i : ProgressBar.wrap(new ArrayList<>(range), "Running GA")) {
             runGeneration();
@@ -34,7 +34,6 @@ public abstract class GA {
         })
                 .collect(Collectors.toList());
         population.get(0).calculateClusters();
-        System.out.println(population.get(0).getClusters().size());
 
     }
 
@@ -46,6 +45,14 @@ public abstract class GA {
     }
 
     private void logPerformance() {
+    }
+
+    public List<GAIndividual> getPopulation() {
+        return population;
+    }
+
+    public void setPopulation(List<GAIndividual> population) {
+        this.population = population;
     }
 
     protected abstract void evaluatePopulation();

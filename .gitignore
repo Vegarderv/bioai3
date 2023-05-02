@@ -3,3 +3,5 @@ target
 .bloop
 .metals
 *.jpg
+env
+venv
